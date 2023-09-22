@@ -5,8 +5,9 @@ import (
 	"hash/fnv"
 	"time"
 
+	"errors"
+
 	v1 "github.com/grafana/tempo/pkg/tempopb/trace/v1"
-	"github.com/pkg/errors"
 )
 
 var errMaxExceeded = errors.New("asdf")

@@ -2,11 +2,11 @@ package model
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 
 	"github.com/grafana/tempo/pkg/model/trace"
 	"github.com/grafana/tempo/pkg/tempopb"
-	"github.com/pkg/errors"
 )
 
 type objectCombiner struct{}

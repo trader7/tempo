@@ -5,8 +5,9 @@ import (
 	"sync"
 	"testing"
 
+	"errors"
+
 	"github.com/grafana/dskit/httpgrpc"
-	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 )
 

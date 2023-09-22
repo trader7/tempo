@@ -3,7 +3,7 @@ package forwarder
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
+	"errors"
 
 	"github.com/grafana/tempo/modules/distributor/forwarder/otlpgrpc"
 )

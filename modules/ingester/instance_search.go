@@ -2,13 +2,13 @@ package ingester
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"regexp"
 	"strings"
 	"sync"
 
 	ot_log "github.com/opentracing/opentracing-go/log"
-	"github.com/pkg/errors"
 	"go.uber.org/atomic"
 
 	"github.com/go-kit/log/level"

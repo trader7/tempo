@@ -6,9 +6,10 @@ import (
 	"fmt"
 	"io"
 
+	"errors"
+
 	"github.com/opentracing/opentracing-go"
 	"github.com/parquet-go/parquet-go"
-	"github.com/pkg/errors"
 	"github.com/willf/bloom"
 
 	"github.com/grafana/tempo/pkg/parquetquery"
@@ -156,7 +157,7 @@ func findTraceByID(ctx context.Context, traceID common.ID, meta *backend.BlockMe
 		return 0, nil
 	})
 	if err != nil {
-		return nil, errors.Wrap(err, "error binary searching row groups")
+		return nil, fmt.Errorf("error binary searching row groups: %w", err)
 	}
 
 	if rowGroup == -1 {
@@ -189,13 +190,13 @@ func findTraceByID(ctx context.Context, traceID common.ID, meta *backend.BlockMe
 	r := parquet.NewReader(pf)
 	err = r.SeekToRow(rowMatch)
 	if err != nil {
-		return nil, errors.Wrap(err, "seek to row")
+		return nil, fmt.Errorf("seek to row: %w", err)
 	}
 
 	tr := new(Trace)
 	err = r.Read(tr)
 	if err != nil {
-		return nil, errors.Wrap(err, "error reading row from backend")
+		return nil, fmt.Errorf("error reading row from backend: %w", err)
 	}
 
 	// convert to proto trace and return

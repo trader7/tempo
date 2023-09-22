@@ -5,8 +5,9 @@ import (
 	"sync"
 	"time"
 
+	"errors"
+
 	"github.com/grafana/dskit/services"
-	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 	"go.uber.org/atomic"
 )

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -16,7 +17,6 @@ import (
 	"github.com/grafana/dskit/server"
 	"github.com/grafana/dskit/services"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/collectors"
 
@@ -205,7 +205,7 @@ func (t *App) initOverridesAPI() (services.Service, error) {
 
 	userConfigOverridesAPI, err := userconfigurableoverridesapi.New(&cfg.Client, NewOverridesValidator(&t.cfg))
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to create user-configurable overrides API")
+		return nil, fmt.Errorf("failed to create user-configurable overrides API: %w", err)
 	}
 
 	overridesPath := addHTTPAPIPrefix(&t.cfg, api.PathOverrides)

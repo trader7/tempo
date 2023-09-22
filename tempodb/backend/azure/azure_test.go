@@ -3,6 +3,8 @@ package azure
 import (
 	"bytes"
 	"context"
+	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -16,7 +18,6 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/bloberror"
 	"github.com/google/uuid"
 	"github.com/grafana/dskit/flagext"
-	"github.com/pkg/errors"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -159,7 +160,7 @@ func TestReadError(t *testing.T) {
 	require.Equal(t, backend.ErrDoesNotExist, err)
 
 	// wrap blob not found error and confirm it still converts to ErrDoesNotExist
-	wrappedBlobNotFoundError := errors.Wrap(blobNotFoundError, "wrap")
+	wrappedBlobNotFoundError := fmt.Errorf("wrap: %w", blobNotFoundError)
 	err = readError(wrappedBlobNotFoundError)
 	require.Equal(t, backend.ErrDoesNotExist, err)
 

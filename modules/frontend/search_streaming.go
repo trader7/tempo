@@ -11,9 +11,10 @@ import (
 	"sync"
 	"time"
 
+	"errors"
+
 	"github.com/go-kit/log"
 	"github.com/go-kit/log/level"
-	"github.com/pkg/errors"
 	"go.uber.org/atomic"
 
 	"github.com/grafana/dskit/user"

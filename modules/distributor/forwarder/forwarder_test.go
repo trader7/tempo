@@ -4,8 +4,9 @@ import (
 	"context"
 	"testing"
 
+	"errors"
+
 	dslog "github.com/grafana/dskit/log"
-	"github.com/pkg/errors"
 	"github.com/stretchr/testify/require"
 	"go.opentelemetry.io/collector/component"
 	"go.opentelemetry.io/collector/consumer"

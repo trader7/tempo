@@ -2,6 +2,7 @@ package ingester
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"sync"
 	"time"
@@ -13,7 +14,7 @@ import (
 	"github.com/grafana/dskit/user"
 	"github.com/opentracing/opentracing-go"
 	ot_log "github.com/opentracing/opentracing-go/log"
-	"github.com/pkg/errors"
+
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"google.golang.org/grpc/codes"
@@ -393,7 +394,7 @@ func (i *Ingester) rediscoverLocalBlocks() error {
 	reader := backend.NewReader(i.local)
 	tenants, err := reader.Tenants(ctx)
 	if err != nil {
-		return errors.Wrap(err, "getting local tenants")
+		return fmt.Errorf("getting local tenants: %w", err)
 	}
 
 	level.Info(log.Logger).Log("msg", "reloading local blocks", "tenants", len(tenants))
@@ -416,7 +417,7 @@ func (i *Ingester) rediscoverLocalBlocks() error {
 
 		newBlocks, err := inst.rediscoverLocalBlocks(ctx)
 		if err != nil {
-			return errors.Wrapf(err, "getting local blocks for tenant %v", t)
+			return fmt.Errorf("getting local blocks for tenant %v: %w", t, err)
 		}
 
 		// Requeue needed flushes
